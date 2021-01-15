@@ -15,7 +15,7 @@ source employees.sql
 
 외래키
 
-```mariadb
+```mysql
 [mysqld]
 datadir = C:/Program Files/MariaDB 10.3/data
 port = 3306
@@ -66,7 +66,7 @@ DELIMITER ;
 
 ## 예제
 
-```mariadb
+```mysql
 
 
 create table 고객
@@ -140,7 +140,7 @@ INSERT INTO 주문 VALUES ('o10', 'carrot', 'p03', 20, '경기도 안양시', '1
 
 
 
-```mariadb
+```mysql
 
 create table 배송업체
 (
@@ -478,7 +478,7 @@ where not exists
 
 ## 데이터 삽입, 수정, 삭제
 
-```mariadb
+```mysql
 -- 데이터 삽입
 insert
 into 고객(고객아이디, 고객이름, 나이, 등급, 적립금)
