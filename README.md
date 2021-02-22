@@ -10,6 +10,8 @@
 
 * #### [MariaDB](./language/MariaDB.md)
 
+* #### [R](./language/R.md)
+
   <br>
 
 ## 컴퓨터 과학
