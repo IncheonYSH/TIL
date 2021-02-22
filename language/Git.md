@@ -29,12 +29,12 @@ $ git commit -m 'version name' # commit
 #### 3. User Config
 
 ```bash
-$ git config --global user.name 'IncheonYSH'
-$ git config --global user.email 'ysh121095@gmail.com'
+$ git config --global user.name '****'
+$ git config --global user.email '****'
 
 $ git config --global -l
-user.name=IncheonYSH
-user.email=ysh121095@gmail.com
+user.name=****
+user.email=*****
 ```
 
 
@@ -75,7 +75,7 @@ $ git branch -d <branch name> # branch 삭제
 
 * branch 병합 후 작업했던 branch 를 삭제하는 방향으로 작업을 진행하자
 
-#### 
+
 
 #### 3. 원격저장소에 업로드
 
@@ -90,8 +90,8 @@ $ git push -u origin main # main 으로 업로드
 
 ```bash
 $ git remote -v
-origin  https://github.com/IncheonYSH/TIL.git (fetch)
-origin  https://github.com/IncheonYSH/TIL.git (push)
+origin  https://github.com/****/TIL.git (fetch)
+origin  https://github.com/****/TIL.git (push)
 ```
 
 
@@ -113,7 +113,7 @@ $ git clone <url>
 ```bash
 To https://github.com/IncheonYSH/GitPractice.git
  ! [rejected]        main -> main (fetch first)
-error: failed to push some refs to 'https://github.com/IncheonYSH/GitPractice.git'
+error: failed to push some refs to 'https://github.com/****/GitPractice.git'
 hint: Updates were rejected because the remote contains work that you do
 hint: not have locally. This is usually caused by another repository pushing
 hint: to the same ref. You may want to first integrate the remote changes
