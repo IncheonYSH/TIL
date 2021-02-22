@@ -10,7 +10,9 @@
 
 * #### [MariaDB](./language/MariaDB.md)
 
-## 기초 이론
+  <br>
+
+## 컴퓨터 과학
 
 * #### [알고리즘](./computer/Algorithm.md)
 
