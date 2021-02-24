@@ -20,14 +20,147 @@ help(rm) # help
 getwd() # Get Working directory
 setwd('C:\\Rstudy') # Set working directory
 
-cat("TEST") # 개행 없이 출력
+############### 
+# 출력
+###############
+cat("TEST") # 개행 없이 출력, 여러 개의 값을 연결해서 출력 가능
+print("TEST") # 출력 후 자동 줄바꿈, 데이터프레임과 같은 2차원 자료구조 출력 가능
 sink("output.txt") # "output.txt" 에 출력 저장 시작
 cat("TEST\n") 
 sink() # "저장 끝"
 
+################
+# 데이터 내부 요약
+################
 head(iris) # 데이터의 앞부분
 tail(iris) # 데이터의 뒷부분
 sumamry(iris) # 데이터 분포
+
+#################
+# 데이터 형태 판별
+#################
+class(x) # 객체 x 의 클래스
+str(x) # 객체 x 의 내부 구조
+is.factor(x) # 객체 x 가 팩터인지 
+is.numeric(x) # 객체 x 가 숫자인지
+is.character(x) # 객체 x 가 문자열인지
+is.matrix(x) # 객체 x 가 행렬인지
+is.array(x) # 객체 x 가 배열인지
+is.data.frame(x) # 객체 x 가 데이터 프레임인지
+
+
+# subset ?
+
+#################
+# 파일 쓰기, 읽기
+#################
+no <- c(1, 2, 3, 4)
+name <- c("Apple", "Banana", "Peach", "Berry")
+prices <- c(500, 200, 200, 50)
+qty <- c(5, 2, 7, 9)
+fruit <- data.frame(No=no, Name=name, PRICE=prices, QTY=qty)
+fruit
+save(no, name, prices, qty, fruit, file="test.data") # 기본 저장 위치에 test.data.로 저장
+
+load("test.data") # 기본 저장 위치에서 test.data 로드
+list.files(recursive=TRUE) # 작업 폴더 내 파일 조회, 하위 폴더까지 조회하려면 recursive=TRUE 추가
+file.exists("test.data") # 기본 저장 위치에 test.data 파일이 존재하는지 판별
+
+dir("C:/RStudy", recursive=T) # 특정 폴더 내의 하위 폴더 조회
+
+file.info("test.data") # 여러 개의 파일 리스트를 입력으로 받기
+file.info(list.files())
+str(file.info(list.files()))
+
+write.csv(fruit, file="fruit.csv") # 데이터프레임을 csv로 저장
+read.csv("fruit.csv") # csv 파일 읽기
+
+install.packages("xlsx") # java 설치가 되어있어야함
+library(xlsx) # 엑셀 파일 라이브러리
+
+wirte.xlsx(quakes, "quakes.xlsx") # xlsx 파일로 저장
+quakeXL < read.xlsx("quakes.xlsx", header=T, sheetIndex=1, encoding='UTF-8') # xlsx 파일 읽기
+
+scan("testdata.txt", what="") # testdata.txt 읽기
+wirte.table(fruit, "fruits.txt", sep=",") # , 를 구분자로 하여 fruits.txt 에 객체 fruits 쓰기
+
+data <- scan() # stdinput
+data
+
+c <- read.table("testdata.txt", header=T) # testdata.txt 를 table 로 읽음
+c
+str(c)
+
+clipd <- read.table(file="clipboard", # 클립보드의 내용을 table 형태로 저장
+                    header=TRUE,
+                    sep="\t",
+                    stringsAsFactors=FALSE
+                    )
+clipd
+
+
+url <- "https://vincentarelbundock.github.io/Rdatasets/csv/datasets/Titanic.csv" 
+Titanic <- read.csv(url)
+dim(Titanic) # url 로 데이터 입력
+
+
+#########################
+# 콘솔에서 입력 받기
+#########################
+install.packages('svDialogs')
+
+library(svDialogs)
+
+user.input <- dlgInput('Input income')$res
+income <- as.numeric(user.input) # 문자열을 숫자로, input 은 문자열 형태로 받으므로
+income
+tax <- income * 0.05 # 세금 계산
+cat('세금:', tax)
+
+#########
+#Na 처리
+#########
+x <- data.frame(a=c(1,2,3), b=c("a",NA,"c"), c=c("a","b",NA))
+na.fail(x) # NA 포함 시 에러 발생
+na.omit(x)
+na.exclude(x)
+na.pass(x) # NA값 출력
+
+
+###########################
+# ggplot
+###########################
+
+
+
+
+
+#########################
+# 함수
+#########################
+function_name <- function(인자, 인자, ...){
+    return(value)
+} # 반환 값 생략시 함수 내부의 마지막 문장이 함수의 반환 값이 됨
+```
+
+<br>
+
+#### 흐름 제어
+
+```r
+#######
+#  if
+#######
+bmi <-as.numeric(weight) / (as.numeric(height) / 100) ^ 2
+if (bmi >= 25) {
+  print("과체중")
+} else {
+  print("정상")
+} # if 문, 중간에 분기를 만들때는 else if 
+
+########
+# switch
+########
 ```
 
 <br>
@@ -204,6 +337,8 @@ mat4 <- matrix(1:12, nrow=3, dimnames=list(c("R1", "R2", "R3"),
                                            c("C1", "C2", "C3", "C4"))) # 행, 열에 name 지정
 colnames(mat4) <- c("A", "B", "C", "D") # 열 이름 따로 지정 가능
 rownames(mat4)
+
+dim(X) # 행렬의 차원 반환
 
 mat4[a, b] # 행렬 원소 접근
 
@@ -403,7 +538,7 @@ tail(InsectSprays)
 
 unique(InsectSprays[, colnames(InsectSprays) == "spray"])
 
-## length(group_by(InsectSprays$spray))
+table(InsectSprays$spray)
 
 InsectSprays.e <- InsectSprays[InsectSprays$spray == "E",]
 InsectSprays.e
@@ -439,5 +574,72 @@ $student
 [1] "Tom"
 > person$hobby[2]
 [1] "tennis"
+```
+
+<br>
+
+------------------------
+
+# 데이터 전처리
+
+```R
+############
+# 결측치 처리
+############
+
+z1 <- c(1, 3, 4, NA, 5, 10, NA)
+z2 <- c(2, 4, NA, 7, -10, 9, NA)
+
+z1[is.na(z1)] <- 0 # 결측치를 0 으로 대체
+
+z3 <- na.omit(z2)
+z3 <- as.vector(na.omit(z2)) # 결측치 제거 후 벡터 객체에 저장
+
+y <- x[complete.cases(x),] # complete.cases(x)는 데이터프레임의 각 행에 결측치가 포함되어 있는지 판별함
+
+
+#############
+# 이상치 탐지
+#############
+
+st <- data.frame(state.x77)
+boxplot(st$Income)
+boxplot.stats(st$Income)$out # boxplot 이용
+
+st$Income[st$Income %in% out] <- NA
+st$Income # 이상치에 NA 할당
+
+
+################
+# 정렬
+################
+order(x , decreasing = FALSE) # 정렬된 인덱스 반환
+
+################
+# 데이터 병합, 분리, 핸들링
+################
+nd <- split(Highway1, Highway1$htype)
+nd # 기준 f에 따라 x를 분리
+
+subset(Highway1, Highway1$len >= mean(Highway1$len), select=c('rate', 'slim', 'htype'))
+# 조건을 만족하는 row 분리, select에 표시할 행만 지정 가능
+
+merge(x, y, by, by.x, by.y, all=F) # by: 병합 기준, all: 교집합은 F, 합집합은 T
+
+samlple(x, n, replace=F) # 샘플링, n: 샘플링 개수, replace: 복원 T, 비복원 F
+combn(x, n) # 조합, x에서 n만큼 뽑음
+
+apply
+lapply
+sapply # lapply 와 유사함, 반환값이 벡터, 행렬
+tapply # 그룹별로 함수 적용
+mapply
+
+unlist(r) # list를 벡터로 변환, key 가 label이 됨
+
+quantile(iris$Sepal.Length, seq(0,1,0.2)) # 각 분위에 0부터 0.2 간격으로 각 분위에 해당하는 값
+
+# doby::sumaryBy(), orderBy()
+install.packages("doBy")
 ```
 
