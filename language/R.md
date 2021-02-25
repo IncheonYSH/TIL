@@ -641,5 +641,76 @@ quantile(iris$Sepal.Length, seq(0,1,0.2)) # 각 분위에 0부터 0.2 간격으�
 
 # doby::sumaryBy(), orderBy()
 install.packages("doBy")
+
+###################
+# 데이터프레임 접근
+###################
+
+with(iris,{
+    print(Sepal.Length)
+    print(Fetal.Length)
+})
+
+within(iris,{
+    print(Sepal.Length)
+    print(Petal.Length)
+}) # iris data 의 특정 레이블 출력
+
+which(condition) # 조건에 맞는 데이터 인덱스 찾기
+which.min(condition) # 조건에 맞는 최소 인덱스 찾기
+which.max(condition) # 조건에 맞는 최대 인덱스 찾기
+
+aggregate(data, by, FUN) # by: 기준 col, FUN: 적용함수
+
+library(ggplot2)
+str(ggplot2::diamonds)
+aggregate(price ~ cut, diamonds, FUN = mean)
+
+
+###############
+# dplyr 패키지
+###############
+
+library(magrittr)
+data(diamonds, package = "ggplot2")
+diamonds %>% head(4) %>% dim # 함수의 결과값을 다른 함수의 인풋으로 전달
+
+##############
+# 예제
+##############
+options(digits=2)
+Students <- c("John Davis", "Angela Williams", "Bullwinkle Moose", 
+              "David Jones", "Janice Markhammer", "Cheryl Cushing",
+              "Reuven Ytzrhak", "Greg Knox", "Joel England",
+              "Mary Rayburn")
+Math <- c(502, 600, 412, 358, 495, 512, 410, 625, 573, 522)
+Science <- c(95, 99, 80, 82, 75, 85, 80, 95, 89, 86)
+English <- c(25, 22, 18, 15, 20, 28, 15, 30, 27, 18)
+roster <- data.frame(Students, Math, Science, English, 
+
+                                          stringsAsFactors = FALSE)
+new <- scale(roster[,2:4])
+score <- apply(new, 1, mean)
+score
+
+roster <- cbind(roster, score)
+roster
+
+y <- quantile(score, c(0.8, 0.6, 0.4, 0.2))
+y
+roster$grade[score >= y[1]] <- 'A'
+roster$grade[score < y[1] & score >= y[2]] <- 'B'
+roster$grade[score < y[2] & score >= y[3]] <- 'C'
+roster$grade[score < y[3] & score >= y[4]] <- 'D'
+roster$grade[score < y[4]]  <- 'F'
+roster
+
+name <- strsplit(Students, " ")
+Lastname <- sapply(name, "[", 2)
+Firstname <- sapply(name, "[", 1)
+
+roster <- cbind(Firstname, Lastname, roster[,-1])
+roster[order(Lastname, Firstname),]
+
 ```
 

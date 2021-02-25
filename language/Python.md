@@ -1,3 +1,38 @@
+# 문자열
+
+* 문자열에 하위 문자열이 포함되어 있는지 확인
+
+  ```python
+  # str.in
+  >>> `given` in `It is a given string`
+  True
+  >>> `gaven` in `It is a given string`
+  False
+  ```
+
+* 문자열에 포함된 하위 문자열의 시작 인덱스 반환
+
+  ```python
+  # str.find (매칭되지 않으면 -1 반환)
+  >>> givenStr = 'It is a given string'
+  >>> givenStr.find('given')
+  8
+  >>> givenStr.find('gaven')
+  - 1
+  
+  # str.index (매칭되지 않으면 ValueError 반환)
+  >>> givenStr = 'It is a given string'
+  >>> givenStr.index('given')
+  8
+  >>> givenStr.index('gaven')
+  Traceback (most recent call last):
+    File "<pyshell#7>", line 1, in <module>
+      givenStr.index('gaven')
+  ValueError: substring not found
+  ```
+
+  <br>
+
 # 리스트
 
 * 원하는 값의 index 여러개 반환
@@ -16,23 +51,121 @@
   """
   ```
 
+* pop
 
+  ```python
+  a = [1, 2, 3]
+  a.pop() 
+  # 리스트 a의 마지막 요소를 리턴하고 그 요소를 리스트에서 삭제한다. 이 경우 3 을 반환하고 a = [1, 2] 가 된다.
+  # a.pop(0) 과 같이 삭제할 인덱스 지정 가능
+  ```
+
+* 특정 값의 인덱스
+
+  ```python
+  list.index(x[, start[, end]]) 
+  # 리스트의 항목 중 값이 x와 같은 첫번째 인덱스 반환, 존재하지 않으면 Value Error
+  # start, end 는 생략 가능
+  ```
+
+  <br>
 
 # 집합
 
 ```python
 s1 = set([1, 2, 3]) # 리스트 [1, 2, 3] 을 집합으로 변환
-
-
 ```
 
 * 집합 안에는 set, list, dic 자료형은 불가능하고 tuple 형태만 가능하다
 
+<br>
+
+# 이진 연산
+
+```python
+###############################
+# bin, oct, hex
+###############################
+>>> bin(42) # 2진법, 0b, 문자열 반환
+'0b101010'
+>>> oct(42) # 8진법, 0o, 문자열 반환
+'0o52'
+>>> hex(42) # 16진법, 0x, 문자열 반환
+'0x2a'
+
+###############################
+# 10진법으로 변환
+###############################
+>>> int('0b101010', 2) # 2진법 -> 10진법
+42
+>>> int('0o52', 8) # 8진법 -> 10진법
+42
+>>> int('0x2a', 16) # 16진법 -> 10진법
+
+############################
+# format
+############################
+>>> format(42, '#b')
+'0b101010'
+>>> format(42, '#o')
+'0o52'
+>>> format(42, '#x')
+'0x2a'
+>>> format(42, '#X')
+'0X2A'
+
+#######################
+# 진법 변환시 접두어 제외
+#######################
+>>> format(42, 'b')
+'101010'
+>>> format(42, 'o')
+'52'
+>>> format(42, 'x')
+'2a'
+>>> format(42, 'X')
+'2A'
+>>> format(42, 'd')
+'42'
+```
+
+<br>
 
 
 
+# 기타 함수
 
+* divmod
 
+  ```python
+  x, y = divmod(n, m) # n 을 m 으로 나눈 몫과 나머지를 각각 x, y에 할당 
+  ```
+
+* all
+
+  ```python
+  is_sorted = all(ages[i] < ages[i+1] for i in range(len(ages)-1)) 
+  # 인자로 주어진 리스트의 모든 요소가 True 일때 True 반환
+  ```
+
+* zip
+
+  ```python
+  # 길이가 같은 반복가능한 개체들을 인자로 여러개 받아들여 순서대로 각 객체들에 있는 요소들을 앞에서부터 각각 하나씩 순서대로 반환하는 함수
+  agesX = ages[:-1]  # [13, 16, 19, 30]
+  agesY = ages[1:]   # [16, 19, 30, 24]
+  
+  for x, y in zip(agesX, agesY):
+      print(x, y)
+      # 13, 16
+      # 16, 19
+      # 19, 30
+      # 30, 24
+  ```
+
+  
+
+  <br>
 
 
 # 파일 읽기
