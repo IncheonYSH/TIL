@@ -3,7 +3,7 @@
 * 문자열에 하위 문자열이 포함되어 있는지 확인
 
   ```python
-  # str.in
+  # in
   >>> `given` in `It is a given string`
   True
   >>> `gaven` in `It is a given string`
