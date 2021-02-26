@@ -1,3 +1,21 @@
+# 네이밍
+
+| 타입                 | Public               | Internal                          |
+| -------------------- | -------------------- | --------------------------------- |
+| 패키지               | `lower_with_under`   |                                   |
+| 모듈                 | `lower_with_under`   | `_lower_with_under`               |
+| 클래스               | `CapWords`           | `_CapWords`                       |
+| 예외                 | `CapWords`           |                                   |
+| 함수                 | `lower_with_under()` | `_lower_with_under()`             |
+| 글로벌/클래스 상수   | `CAPS_WITH_UNDER`    | `_CAPS_WITH_UNDER`                |
+| 글로벌/클래스 변수   | `lower_with_under`   | `_lower_with_under`               |
+| 인스턴스 변수        | `lower_with_under`   | `_lower_with_under`               |
+| 메서드 이름          | `lower_with_under()` | `_lower_with_under()` (protected) |
+| 함수/메서드 매개변수 | `lower_with_under`   |                                   |
+| 지역 변수            | `lower_with_under`   |                                   |
+
+<br>
+
 # 문자열
 
 * 문자열에 하위 문자열이 포함되어 있는지 확인
@@ -29,6 +47,13 @@
     File "<pyshell#7>", line 1, in <module>
       givenStr.index('gaven')
   ValueError: substring not found
+  ```
+
+* 문자열 합치기
+
+  ```python
+  # 리스트의 요소를 하나의 문자열로 반환
+  '구분자'.join(list)
   ```
 
   <br>
