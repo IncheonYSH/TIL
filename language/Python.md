@@ -261,6 +261,10 @@
 
   > appendleft(x) 의 경우와 유사하게 작동한다. extendleft(_iterable_) 의 경우 iterable 객체가 원래 순서의 반대로 정렬되어 앞쪽에 추가된다.
 
+  <br>
+
+  <br>
+
 # 집합
 
 ```python
