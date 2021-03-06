@@ -24,7 +24,7 @@
 
   <br>
 
-  ![](DataStructure/Doubly-linked-list.png)
+  ![](Datastructure/Doubly-linked-list.png)
 
   <center>Doubly linked list</center>
 
