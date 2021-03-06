@@ -1,10 +1,46 @@
 # 배열(Array)
 
 * 여러 데이터를 하나의 이름으로 묶어 관리하기 위한 자료구조
-  * value 와 index의 쌍으로 구성되어있다
+  * value 와 index의 쌍으로 구성되어있다.
   * index + value : element
 
 <br>
+
+<br>
+
+# 연결 리스트(linked list)
+
+* 노드(Node) 를 기본 단위로 한다.
+
+* 각 노드는 데이터를 포함하며, 다른 노드와 연결된다.
+
+* 노드간의 연결은 포인터로 구현된다.
+
+  <br>
+
+  ![](./Datastructure/Singly_linked_list.png)
+
+  <center>Singly linked list</center>
+
+  <br>
+
+  ![](DataStructure/Doubly-linked-list.png)
+
+  <center>Doubly linked list</center>
+
+  <br>
+
+  ![](./Datastructure/Circularly-linked-list.png)
+
+  <center>Circular linked list</center>
+
+  <br>
+
+* 삽입, 삭제의 시간 복잡도는 O(1), 검색의 시간 복잡도는 O(n) 이다.
+
+  <br>
+
+  <br>
 
 # Hash table
 
@@ -12,7 +48,7 @@
 
 * 배열을 사용하여 레코드를 레코드에 대응되는 키와 매핑시킨 자료구조
 
-* 크기가 U인 테이블 T를 생성한 뒤, `key k` 를 `slot k`에 저장한다
+* 크기가 U인 테이블 T를 생성한 뒤, `key k` 를 `slot k`에 저장한다.
 * `actual key K` 는 전체 `key U` 의 부분집합이다.
 
 <img src="./Algorithm/Direct_address_tables.png" alt="figure" style="zoom: 80%;" />
