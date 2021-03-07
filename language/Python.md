@@ -206,6 +206,17 @@
 
   <br>
   
+* 정렬
+
+  ```python
+  sorted(list) # 오름차순
+  sorted(list, reverse = True) # 내림차순
+  
+  list.sort() # None 을 반환, 리스트를 제자리에서 수정
+  ```
+
+  <br>
+
   <br>
 
 # collections.deque
@@ -437,6 +448,34 @@ s1 = set([1, 2, 3]) # 리스트 [1, 2, 3] 을 집합으로 변환
   ```
 
 <br>
+
+* decimal
+
+  > 십진 고정 소수점 모듈
+
+  ```python
+  from decimal import *
+  getcontext().prec = 6 # 소수점 자리수 제한, 기본값은 28
+  print(Decimal(1) / Decimal(7))
+  
+  # 실행 결과
+  # 0.142857
+  ```
+
+  <br>
+
+  > 수학 함수
+
+  ```python
+  from decimal import *
+  Decimal(2).sqrt()
+  Decimal(1).exp()
+  Decimal('10').ln()
+  Decimal('10').log10()
+  ```
+
+  <br>
+
 #!todo
 
 
