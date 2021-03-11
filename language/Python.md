@@ -288,6 +288,34 @@ s1 = set([1, 2, 3]) # 리스트 [1, 2, 3] 을 집합으로 변환
 
 <br>
 
+# 딕셔너리
+
+* 반복문에서 키, 값 모두 반환
+
+  ```python
+  for key, value in dict.items():
+  ```
+
+  <br>
+
+* 반복문에서 키만 모두 반환
+
+  ```python
+  for key in dict.keys():
+  ```
+
+  <br>
+
+* 반복문에서 값만 모두 반환
+
+  ```python
+  for value in dict.values():
+  ```
+
+  <br>
+
+  <br>
+
 # 진법 변환
 
 * 10진법에서 다른 진법으로 변환
