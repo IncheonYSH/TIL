@@ -2,7 +2,13 @@
 
 * #### [Git](./language/Git.md)
 
-* #### [Python](./language/Python.md)
+* #### Python
+
+  * [Python.Basic](./language/Python.Basic.md)
+
+  * [Python.Class](./language/Python.Class.md)
+
+  * [Python.TimeComplexity](./language/Python.TimeComplexity.md)
 
 * #### [Regular Expression](./language//RegularExpression.md)
 
@@ -21,4 +27,6 @@
 * #### [자료구조](./computer/DataStructure.md)
 
 * #### [데이터베이스](./computer/Database.md)
+
+* #### [객체 지향 프로그래밍](./computer/OOP.md)
 
