@@ -4,11 +4,11 @@
 
 * #### Python
 
-  * [Python.Basic](./language/Python.Basic.md)
+  * __[Python.Basic](./language/Python.Basic.md)__
 
-  * [Python.Class](./language/Python.Class.md)
+  * __[Python.Class](./language/Python.Class.md)__
 
-  * [Python.TimeComplexity](./language/Python.TimeComplexity.md)
+  * __[Python.TimeComplexity](./language/Python.TimeComplexity.md)__
 
 * #### [Regular Expression](./language//RegularExpression.md)
 
