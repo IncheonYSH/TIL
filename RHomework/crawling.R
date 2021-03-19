@@ -33,14 +33,22 @@ for (i in 1:50){
   else{
     audience_star[i] <- gsub('[가-힣[:space:]]',"",html_text(audience_parse), perl = T)
   }
-  critic_star[i] <- html_text(critic_parse)
+
+  if (html_text(critic_parse) == '0.00'){
+    critic_star[i] <- '평점 없음'
+  }
+  else{
+    critic_star[i] <- html_text(critic_parse)
+  }
+  
 }
 movie_info <- data.frame(title, link, audience_star, critic_star)
 colnames(movie_info) <- c('영화 제목',
                           '세부 링크',
                           '관람객 평점',
                           '기자 평론가 평점 ')
-write.csv(movie_info,"C:/RStudy/rank50.csv")
+# write.csv(movie_info,"C:/RStudy/rank50.csv")
+write.csv(movie_info,"./rank50.csv")
 
 # Problem 3
 review_crawling <- function(movie_num, max_page = 10){
