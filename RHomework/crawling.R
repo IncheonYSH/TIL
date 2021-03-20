@@ -56,8 +56,16 @@ write.csv(movie_info,"C:/RStudy/rank50.csv")
 # Problem 3
 # 한 페이지에 리뷰 10개
 # 원하는 페이지 수 만큼 가능, default 10
-review_crawling <- function(movie_num, max_page = 10){
+review_crawling <- function(movie_num){
   tot_review <- c()
+  url_review <- paste('https://movie.naver.com/movie/bi/mi/pointWriteFormList.nhn?code=',
+                        as.character(movie_num),
+                        '&type=after&isActualPointWriteExecute=false&isMileageSubscriptionAlready=false&isMileageSubscriptionReject=false&page=',
+                        as.character(1), sep="")
+  html_review <- read_html(url_review, encoding = 'UTF-8')
+  review_parse <- html_nodes(html_review,
+                               '.score_total .total em')
+  max_page <- (as.integer(gsub('[\r\n\t,]',"",html_text(review_parse), perl = TRUE)) %/% 10) + 1  
   for (i in 1:max_page){
     url_review <- paste('https://movie.naver.com/movie/bi/mi/pointWriteFormList.nhn?code=',
                         as.character(movie_num),
@@ -73,12 +81,10 @@ review_crawling <- function(movie_num, max_page = 10){
   return(tot_review)
 }
 
-review_Minari <- review_crawling(187310, 280)
-review_DemonSlayer <- review_crawling(196051, 20)
-review_MISSIONPOSSIBLE <- review_crawling(189124, 20)
-review_group <- data.frame(review_Minari, review_DemonSlayer, review_MISSIONPOSSIBLE)
-names(review_group) <- c("미나리", "귀멸의 칼날", "미션 파서블")
-head(review_group)
+review_Minari <- review_crawling(187310) # 미나리
+review_DemonSlayer <- review_crawling(196051) # 귀멸의 칼날
+review_MISSIONPOSSIBLE <- review_crawling(189124) # 미션 파서블
+
 
 # Word cloud
 library(wordcloud)
@@ -104,7 +110,9 @@ clean_data <- function(Data, blacklist) {
   return(Data)
 }
 
-movie_wordcloud <- function(Data, limit, blacklist){
+movie_wordcloud <- function(Data, limit, whitelist, blacklist){
+  useSejongDic(backup = T)
+  add_word(whitelist)
   exnoun <- sapply(Data, extractNoun, USE.NAMES = F)
   exnoun <- unlist(exnoun)
   exnoun <- clean_data(exnoun, blacklist)
@@ -114,9 +122,7 @@ movie_wordcloud <- function(Data, limit, blacklist){
   wordcloud(names(top_word), top_word, random.order = F, random.color = F, rot.per=0, colors = pal)
 }
 
-useSejongDic(backup = T)
 whitelist <- c("노잼", "꿀잼", "극혐", "알바", "댓글알바", "댓글")
-blacklist <- c("스포일러", "영화", "작품", "연기", "결말", "감독", "스포일러", "감상평", "들이", "해서", "때문", "진짜", "뭔가",
+blacklist <- c("스포일러", "영화", "작품", "연기", "결말", "감독", "감상평", "들이", "해서", "때문", "진짜", "뭔가",
 "하기", "무엇", "좋았습니", "하게", "무엇", "누구")
-add_word(whitelist)
-movie_wordcloud(review_Minari, 100, c(blacklist, "미나리"))
+movie_wordcloud(review_Minari, 100, whitelist, c(blacklist, "미나리"))
