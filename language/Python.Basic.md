@@ -197,11 +197,53 @@
 
 # 집합
 
-```python
-s1 = set([1, 2, 3]) # 리스트 [1, 2, 3] 을 집합으로 변환
-```
+* 생성
 
-* 집합 안에는 set, list, dic 자료형은 불가능하고 tuple 형태만 가능하다
+  > 집합 안에는 set, list, dic 자료형은 불가능하고 tuple 형태만 가능하다.
+
+  ```python
+  s1 = set([1, 2, 3]) # 리스트 [1, 2, 3] 을 집합으로 변환
+  print(s1)
+  ```
+
+  ```powershell
+  # 출력
+  {1, 2, 3}
+  ```
+
+  <br>
+
+* 원소 하나 추가
+
+  > `set.add(element)`
+
+  ```python
+  s1 = set([1, 2, 3])
+  s1.add(4)
+  print(s1)
+  ```
+
+  ```powershell
+  # 출력
+  {1, 2, 3, 4}
+  ```
+
+  <br>
+
+* 원소 여러개 추가
+
+  > `set.update(list)`
+
+  ```python
+  s1 = set([1, 2, 3])
+  s1.update([4, 5, 6])
+  print(s1)
+  ```
+
+  ```python
+  # 출력
+  {1, 2, 3, 4, 5, 6}
+  ```
 
 <br>
 
@@ -355,6 +397,26 @@ s1 = set([1, 2, 3]) # 리스트 [1, 2, 3] 을 집합으로 변환
 
 # 기타 유용한 함수, 모듈
 
+* map
+
+  > 여러 개의 데이터를 한 번에 다른 형태로 변환하여 map 객체로 반환
+  >
+  > map(function, iterable)
+
+  ```python
+  from itertools import combinations
+  a = ['a', 'b', 'c', 'd']
+  list(map("".join, combinations(a, 2)))
+  ```
+
+  ```powershell
+  # 출력
+  ['ab', 'ac', 'ad', 'bc', 'bd', 'cd']
+  a = ["1", "2", "3"]
+  ```
+
+  <br>
+
 * divmod
 
   > 몫과 나머지 리턴
@@ -423,13 +485,24 @@ s1 = set([1, 2, 3]) # 리스트 [1, 2, 3] 을 집합으로 변환
 
   <br>
 
-#!todo
-
 
 * itertools
 
-  .....
+  > `itertools.combinations(list, n)`
+  >
+  > 리스트에서 가능한 순서쌍 튜플을 itertools.combinations 객체로 리턴
   
+  ```python
+  from itertools import combinations
+  a = [1, 2, 3, 4]
+  result = list(combinations(a, 2))
+  print(result)
+  ```
+  
+  ```powershell
+  # 출력
+  [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)]
+  ```
 
 <br>
 
