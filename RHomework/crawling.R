@@ -14,6 +14,7 @@ audience_star <- c()
 critic_star <- c()
 
 # Problem 1
+# 개봉전 영화, 평점 정보가 없는 영화 구분하여 기록
 for (i in 1:50){
   url_movie <- link[i]
   html_movie <- read_html(url_movie, encoding = 'UTF-8')
@@ -53,9 +54,9 @@ colnames(movie_info) <- c('영화 제목',
                           '기자 평론가 평점 ')
 write.csv(movie_info,"C:/RStudy/rank50.csv")
 
+
 # Problem 3
-# 한 페이지에 리뷰 10개
-# 원하는 페이지 수 만큼 가능, default 10
+# 한줄평 전부 수집
 review_crawling <- function(movie_num){
   tot_review <- c()
   url_review <- paste('https://movie.naver.com/movie/bi/mi/pointWriteFormList.nhn?code=',
@@ -91,12 +92,14 @@ library(wordcloud)
 library(RColorBrewer)
 library(KoNLP)
 
+# 사전에 단어 추가
 add_word <- function(word_vector){
   for(i in word_vector){
     mergeUserDic(data.frame(c(i), "ncn"))
   }
 }
 
+# 전처리(한글자 단어 제거, 특수문자 제거, 단일 자음모음 제거, 사용자 지정 제거 단어)
 clean_data <- function(Data, blacklist) {
   Data <- gsub('[~!@#$%&*()_+=?<>]','',Data)
   Data <- gsub('[ㄱ-ㅎ]','',Data)
@@ -110,6 +113,7 @@ clean_data <- function(Data, blacklist) {
   return(Data)
 }
 
+# 전처리 후 wordcloud 생성
 movie_wordcloud <- function(Data, limit, whitelist, blacklist){
   useSejongDic(backup = T)
   add_word(whitelist)
