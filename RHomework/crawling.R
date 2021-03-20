@@ -10,11 +10,11 @@ for (i in 1:50){
   link[i] <- paste('https://movie.naver.com', link[i], sep="")
 }
 
+# Problem 1
+# 개봉전 영화, 평점 정보가 없는 영화 구분하여 기록
 audience_star <- c()
 critic_star <- c()
 
-# Problem 1
-# 개봉전 영화, 평점 정보가 없는 영화 구분하여 기록
 for (i in 1:50){
   url_movie <- link[i]
   html_movie <- read_html(url_movie, encoding = 'UTF-8')
