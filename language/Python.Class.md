@@ -1,3 +1,35 @@
+# Meta class
+
+> 클래스를 만드는 '무언가'
+
+<br>
+
+* type
+
+  > 동적으로 클래스 생성
+
+  ```python
+  type(name of the class, 
+       tuple of the parent class (for inheritance, can be empty), 
+       dictionary containing attributes names and values)
+  ```
+
+  ```python
+  >>> MyShinyClass = type('MyShinyClass', (), {}) # 클래스 객체 반환
+  >>> print(MyShinyClass)
+  <class '__main__.MyShinyClass'>
+  >>> print(MyShinyClass()) # 클래스 인스턴스 생성
+  <__main__.MyShinyClass object at 0x8997cec>
+  ```
+
+<br>
+
+* !todo 
+
+  > metaclass in Python 3
+
+  <br>
+
 # Object 클래스
 
 * 클래스가 생성될 때 기본적으로 Object 클래스를 상속받게 된다.
