@@ -41,6 +41,96 @@
   <br>
 
   <br>
+  
+* In Python
+
+  ```python
+  class Node:
+          def __init__(self):
+              self.data = None
+              self.link = None
+  
+  class LinkedList:
+      def __init__(self, *args):
+          self.data_arrary = args
+          self.head = None
+  
+          if len(self.data_arrary) != 0:
+              node = Node()
+              node.data = self.data_arrary[0]
+              self.head = node
+              for i in self.data_arrary[1:]:
+                  pre = node
+                  node = Node()
+                  node.data = i
+                  pre.link = node
+  
+      def __str__(self):
+          chain = []
+          if self.head != None:
+              current = self.head
+              chain.append(current.data)
+              while current.link != None:
+                  current = current.link
+                  chain.append(current.data)
+          return "LinkedList({})".format(chain)
+      
+      # 데이터 삽입
+      def insert_data(self, find_data, insert_data):
+          if self.head.data == find_data:
+              node = Node()
+              node.data = insert_data
+              node.link = self.head
+              self.head = node
+          else:
+              current = self.head
+              while current.link != None:
+                  pre = current
+                  current = current.link
+                  if current.data == find_data:
+                      node = Node()
+                      node.data = insert_data
+                      node.link = current
+                      pre.link = node
+                       
+      # 데이터 삭제
+      def delete_data(self, data):
+          if self.head.data == data:
+              current = self.head
+              self.head = current.link
+          else:
+              current = self.head
+              while current.link != None:
+                  pre = current
+                  current = current.link
+                  if current.data == data:
+                      pre.link = current.link
+          del(current)
+  ```
+
+  ```python
+  a = LinkedList('a', 'b', 'c')
+  print(a)
+  
+  a.insert_data('a', 'A')
+  a.insert_data('b','B')
+  a.insert_data('c','C')
+  print(a)
+  
+  a.delete_data('a')
+  a.delete_data('b')
+  a.delete_data('c')
+  print(a)
+  ```
+
+  ```powershell
+  # 출력
+  LinkedList(['a', 'b', 'c'])
+  LinkedList(['A', 'a', 'B', 'b', 'C', 'c'])
+  LinkedList(['A', 'B', 'C'])
+  ```
+
+  
 
 # Hash table
 
