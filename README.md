@@ -14,6 +14,8 @@
 
 * #### [C++](./language/C++.md)
 
+* #### [Java](./language/Java.md)
+
 * #### [MariaDB](./language/MariaDB.md)
 
 * #### [R](./language/R.md)
