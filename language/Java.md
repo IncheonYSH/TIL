@@ -455,19 +455,303 @@ Optional<Address> address;
 
   ```markdown
   * build.gradle
+  * spring 사용시
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
   
+  * hibernate 사용시(버전확인필수)
+  implementation 'org.hibernate:hibernate-core:5.5.3.Final'
+  implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
+  runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+  
+  ---------------------------------------------------------------------------
+  
   * application.properties
-  spring.datasource.driverClassName=org.mariadb.jdbc.Driver
-  spring.datasource.url=jdbc:mariadb://(ip):(포트)/spring_test
-  spring.datasource.username=(유저명)
+spring.datasource.driverClassName=org.mariadb.jdbc.Driver
+  spring.datasource.url=jdbc:mariadb://(ip):(포트)/(db명)
+spring.datasource.username=(유저명)
   spring.datasource.password=(암호)
   
   spring.jpa.show-sql=true
   spring.jpa.hibernate.ddl-auto=none
+  
+  ----------------------------------------------------------------------------
+  
+  * persistence.xml(hibernate)
+  <persistence xmlns="http://java.sun.com/xml/ns/persistence"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+          version="2.0">
+      <persistence-unit name="jpatest">
+          <properties>
+              <property name="javax.persistence.jdbc.Driver" value="org.mariadb.jdbc.Driver" />
+              <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://(db주소):(포트)/(db이름)" />
+              <property name="javax.persistence.jdbc.user" value="(db접근유저명)" />
+              <property name="javax.persistence.jdbc.password" value="(패스워드)" />
+              <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect" />
+              <property name="hibernate.show_sql" value="true" />
+              <property name="hibernate.format_sql" value="true" />
+              <property name="hibernate.use_sql_comment" value="true" />
+          </properties>
+      </persistence-unit>
+  </persistence>
+  
   ```
 
-  
+<br>
 
+# JPA
+
+* 구동 방식
+
+  > 1. Persistence 클래스에서 persistence.xml 설정 정보를 조회함
+  > 2. EntityMangerFactory 클래스 생성
+  > 3. 필요할때마다 Factory 클래스에서 EntityManger 생성
+
+* 주의 사항
+
+  > 1. EntityMangerFactory  는 하나만 생성해서 애플리케이션 전체에서 공유한다
+  > 2.  EntityManger 는 쓰레드간에 공유하면 안된다.
+  > 3. JPA 의 모든 데이터 변경은 트랜잭션 안에서 실행하여야 한다.
+
+* JPQL
+
+  > SQL 을 추상화한 **객체 지향 쿼리**
+  >
+  > 즉 JPQL은 엔티티 객체를 대상으로 쿼리를 작성함
+
+  **쿼리 작성 방법 **
+
+  ` select m from Member m where  m.age > 18`
+
+  * 엔티티와 속성은 대소문자를 구분한다
+  * JPQL 키워드는 대소문자를 구분하지 않는다
+  * 테이블 이름이 아니라 **엔티티 이름**을 사용한다(객체를 대상으로 쿼리를 작성한다)
+  * 별칭은 필수적이다
+
+  **결과 조회 API**
+
+  * `query.getResultList() ` : 결과가 하나 이상인경우 사용가능, 리스트를 반환한다
+  * `query.getSingleResult()` : 결과가 정확히 하나일경우 사용(아니면 예외발생), 단일 객체를 반환한다
+
+  **파라미터 바인딩**
+
+  ```java
+  SELECT m FROM Member m where m.username := username
+  query.setParameter("username", usernameParam);
   
+  SELECT m FROM Member m where m.username = ?1
+  query.setParameter(1, usernameParam);
+  ```
+
+  join fetch 를 사용하면 지연로딩이 발생하지 않게 된다.
+
+  NamedQuery 를 사용하면 어플리케이션 로딩 시점에 문제를 발견할 수 있다(Spring 에서는 이렇게 함)
+
+* 매핑 어노테이션
+
+  ```java
+  @Entity 
+  public class Member{
+      
+      @Id
+      @GeneratedValue(startegy = GenerationType.AUTO)// auto_increment 
+      private Long id;
+      
+      /** 유용한 옵션
+      nullable = false(not null과 같은 옵션),
+      unique = true,
+      length 필드 길이 제한,
+      columnDefinition, length, precision, scale 등
+      */
+      @Column(name = "USERNAME")
+      private String name;
+      
+      // 실무에서는 가급적 enumtype 을 STRING으로 할것
+      @Enumerated(EnumType.STRING)
+      private MemberType memberType;    
+      
+      private int age;
+      
+      /**
+      @CLOB
+      @BLOB
+      바이너리파일로 밀어넣을때, CLOB(charactor), BLOB(byte)
+      
+      @Transient
+      매핑하지않는필드, 객체에서만 가지고 있고 db와 매핑하지 않음
+      */    
+  }
+  
+  public enum MemberType{
+      ADMIN, USER
+  }
+  ```
+
+* 연관관계 매핑 이론
+
+  > 가급적이면 단방향 매핑을 사용하는것이 좋다.
+
+  * 매핑 어노테이션
+
+    ```java
+    @ManyToOne
+    @OneToMany
+    @OneToOne
+    @ManyToMany
+    
+    @JoinColumn
+    @JoinTable 
+    ```
+
+  * 복합키 어노테이션
+
+    ```java
+    @IdClass
+    @Embeddedld
+    @Embeddable
+    @Mapsld
+    ```
+
+  * 단방향 매핑
+
+  * 양방향 매핑
+
+    > 객체를 양방향으로 참조하려면 단방향 연관관계를 2개 만들어야 한다.
+    >
+    > 반면 테이블은 외래 키 하나로 두 테이블의 연관관계를 관리한다.
+
+    ```markdown
+    * 연관관계의 Owner
+    
+    양방향 매핑 규칙
+    * 객체의 두 관계 중 하나를 연관관계의 주인으로 지정
+    * 연관관계의 주인만이 외래 키를 관리한다(등록, 수정 등)
+    * 주인이 아닌 쪽은 읽기만 가능하다
+    * 주인은 mappedBy 속성을 사용하지 않는다
+    * 주인이 아니면 mappedBy 속성으로 주인을 지정한다
+    
+    그렇다면 무엇을 주인으로 설정할것인가?
+    * 외래키가 있는 곳을 주인으로 정해야 한다(99퍼센트 이상)
+    ```
+
+* 영속성 컨텍스트
+
+  > 엔티티를 영구 저장하는 환경
+  >
+  > EntityManager.persist(entity);
+
+  ![](Java/%EB%82%B4%EB%B6%80%EA%B5%AC%EC%A1%B0.jpg)
+  
+  * 영속성 컨텍스트는 논리적인 개념
+  * 눈에 보이지 않는다
+  * 엔티티 매니저를 통해서 영속성 컨텍스트에 접근
+  
+  ```markdown
+  * 영속 컨텍스트(entityManager) 의 특징
+  
+  1. 1차캐시
+  2. 동일성 보장
+  3. 트랜잭션을 지원하는 쓰기 지연
+  4. 변경 감지
+  5. 지연 로딩
+  ```
+  
+  1. entity 조회, 1차캐시
+  
+     ```java
+     // 엔티티를 생성한 상태(비영속)
+     Member member = new Member();
+     member.setId("member1");
+     member.setUsername("회원1");
+     
+     // 엔티티 영속(1차 캐시에 저장됨)
+     em.persist(member);
+     
+     // db를 조회하지 않고 먼저 1차캐시에서 조회함
+     // 1차캐시는 글로벌캐시가 아님. 스레드간에 공유되지않는다.
+     Member findMember = em.find(Member.class, "member1");
+     
+     // 1차캐시에 없으므로 db에서 조회한다.
+     Member findMember2 = em.find(Member.class, "member2");
+     ```
+  
+  2. 동일성 보장
+  
+     ```java
+     Member a = em.find(Member.class, "member1");
+     Member b = em.find(Member.class, "member1");
+     
+     System.out.println(a == b); // 동일성 비교 true
+     ```
+  
+  3. 트랜잭션을 지원하는 쓰기 지연
+  
+     ```java
+     EntityManager em = emf.createEntityManager();
+     EntityTransaction transaction = em.getTransaction();
+     
+     // 엔티티 매니저는 데이터 변경시 트랜잭션을 시작해야 한다.
+     transaction.begin();
+     
+     em.persist(memberA);
+     em.persist(memberB);
+     // 여기까지 INSERT 구문을 데이터베이스에 보내지 않는다.
+     
+     // 커밋하는순간 데이터베이스에 INSERT SQL 을 보낸다.
+     transaction.commit(); // 
+     ```
+  
+  4. 변경 감지
+  
+     ```java
+     // 내부적으로 스냅샷을 사용하기 때문에 아래와 같은 코드로 작동할 수 있다.
+     EntityManager em = emf.createEntityManager();
+     EntityTransaction transaction = em.getTransaction();
+     
+     // 트랜젝션 시작
+     transaction.begin();
+     
+     // 영속 엔티티 조회
+     Member memberA = em.find(Member.class, "memberA");
+     
+     // 영속 엔티티 데이터 수정
+     memberA.setUsername("hi");
+     memberA.setAge(10);
+     
+     // em.update(member) 와 같은 코드는 필요없다
+     
+     // 트랜젝션 커밋
+     transaction.commit();
+     
+     //---------------------------------------------
+     // 엔티티 삭제
+     Member memberA = em.find(Member.class, "memberA");
+     em.remove(memberA);
+     ```
+  
+  5. flush
+  
+     > 영속성 컨텍스트의 변경내용을 데이터베이스에 반영
+     >
+     > 영속성 컨텍스트를 비우지 않는다. 변경내용을 데이터베이스에 동기화 할 뿐이다.
+  
+     ```markdown
+     * 영속성 컨텍스트를 플러시 하는 방법
+     em.flush() - 직접 호출한다
+     트랜잭션 커밋(commit()) - 플러시가 자동으로 호출된다
+     JPQL 쿼리 실행 - 플러시가 자동으로 호출된다(jdbc, mybatis 등과 같이 사용할 경우 수동으로 flush 해야한다)
+     
+     * 준영속 상태로 만드는 방법
+     em.detach(entity) - 특정 엔티티만 준영속 상태로 전환(persist 이전 상태로)
+     em.clear() - 영속성 컨텍스트를 완전히 초기화한다
+     em.close() - 영속성 컨텍스트를 종료한다
+     ```
+  
+  6. 지연 로딩
+  
+     > 지연 로딩 `fetch = FetchType.LAZY` 를 사용하여 프록시 객체로 조회한다.
+     >
+     > 즉시 로딩은 예상하지 못한 SQL이 발생하므로 가급적 지연 로딩을 사용하여야 한다.
+     >
+     > 지연 로딩을 사용하기 위해서는 영속성 컨텍스트가 유지되고 있어야 한다.

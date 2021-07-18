@@ -118,11 +118,14 @@
 * 특정 값의 인덱스
 
   ```python
-  list.index(x[, start[, end]]) 
   # 리스트의 항목 중 값이 x와 같은 첫번째 인덱스 반환, 존재하지 않으면 Value Error
   # start, end 는 생략 가능
+  list.index(x[, start[, end]]) 
+  
+# 찾는 경우가 없을때 -1 반환
+  list.find(x)
   ```
-
+  
   <br>
   
 * 정렬
